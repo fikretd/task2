@@ -15,20 +15,20 @@
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-6 col-lg-4 mb-5">
-          <form action="" class="row">
+          <form class="row" id="formNasa">
             <div class="form-group col-12 col-md-6">
-              <label for="exampleInputEmail1">From</label>
-              <input type="text" class="form-control" id="dateFrom" placeholder="dd.mm.yyyy" autocomplete="off">
+              <label for="dateFrom">From</label>
+              <input type="text" name="from" class="form-control" id="dateFrom" placeholder="dd.mm.yyyy" autocomplete="off">
             </div>
             <div class="form-group col-12 col-md-6">
-              <label for="exampleInputEmail1">To</label>
-              <input type="text" class="form-control" id="dateTo" placeholder="dd.mm.yyyy" autocomplete="off">
+              <label for="dateTo">To</label>
+              <input type="text" name="to" class="form-control" id="dateTo" placeholder="dd.mm.yyyy" autocomplete="off">
             </div>
             <div class="col-6">
-              <button class="btn btn-warning text-white" role="button">FLUSH</button>
+              <button class="btn btn-warning text-white" role="button" id="btnFlush">FLUSH</button>
             </div>
             <div class="col-6">
-              <button class="btn btn-secondary" role="button">IMPORT</button>
+              <button class="btn btn-secondary" role="button" id="btnImport">IMPORT</button>
             </div>
           </form>
         </div>
@@ -42,46 +42,17 @@
               </tr>
             </thead>
             <tbody>
+            @foreach($requests as $r)
               <tr>
-                <th scope="row">1</th>
-                <td>1</td>
+                <th scope="row">{{$r->request_id}}</th>
+                <td>{{$r->day}}</td>
+                @if($r->status)
                 <td class="bg-success text-white">Imported</td class="bg-success text-white">
+                @else
+                <td class="">Waiting</td class="bg-success text-white">
+                @endif
               </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>2</td>
-                <td class="bg-success text-white">Imported</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>3</td>
-                <td>Waiting</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>4</td>
-                <td>Waiting</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>5</td>
-                <td>Waiting</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>1</td>
-                <td>Waiting</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>2</td>
-                <td>Waiting</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>3</td>
-                <td>Waiting</td>
-              </tr>
+            @endforeach
             </tbody>
           </table>
         </div>
@@ -90,8 +61,44 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(function(){
+      $(document).on('click', '#btnImport', function(){
+        $.ajax({
+          url: '/nasa',
+          data: $('#formNasa').serialize(),
+          method: 'get',
+          dataType: 'json',
+          success: function(r){
+            console.log(r);
+          },
+          error: function(x, h){
+            console.log(x, h);
+          }
+        });
+
+        return false;
+      });
+      $(document).on('click', '#btnFlush', function(){
+        $.ajax({
+          url: '/nasa/flush',
+          success: function(r){
+            console.log(r);
+          },
+          error: function(x, h){
+            console.log(x, h);
+          }
+        });
+
+        return false;
+      });
+    });
+    </script>
   </body>
 </html>
