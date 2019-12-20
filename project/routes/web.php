@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'HomeController@show');
+Route::get('/nasa', 'NasaController@call');
+Route::get('/nasa/flush', 'NasaController@flush');
