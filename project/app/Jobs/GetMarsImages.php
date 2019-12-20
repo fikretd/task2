@@ -15,7 +15,7 @@ class GetMarsImages implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $_apiKey = "FMTwiyDkNAS2DaS29JyaT5JYhGjW3OVAyrMLAecB";
+    private $_apiKey = "-";
     private $_date;
     private $_rj;
 
